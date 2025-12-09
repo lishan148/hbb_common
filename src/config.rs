@@ -66,9 +66,39 @@ lazy_static::lazy_static! {
     pub static ref OVERWRITE_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref DEFAULT_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
     pub static ref OVERWRITE_DISPLAY_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    // pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+    pub static ref DEFAULT_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = {
+            let mut map = HashMap::new();
+            //使用D3D渲染
+            map.insert("allow-d3d-render".to_string(), "N".to_string());
+            //启动时检查软件更新
+            map.insert("enable-check-update".to_string(), "N".to_string());
+            //自动更新
+            map.insert("allow-auto-update".to_string(), "N".to_string());
+            //启用UDP打洞
+            map.insert("enable-udp-punch".to_string(), "Y".to_string());
+            //启用IPv6 P2P连接
+            map.insert("enable-ipv6-punch".to_string(), "N".to_string());
+            //禁用发现选项卡
+            map.insert("disable-discovery-panel".to_string(), "Y".to_string());
+            //默认提权运行
+            map.insert("pre-elevate-service".to_string(), "Y".to_string());
+            //被控端更改连接权限
+            map.insert("allow-remote-cm-modification".to_string(), "N".to_string());
+            //允许局域网对等端发现我
+            map.insert("enable-lan-discovery".to_string(), "Y".to_string());  
+            //启用直接IP访问
+            map.insert("direct-server".to_string(), "Y".to_string());                       
+            RwLock::new(map)
+        };    
     pub static ref OVERWRITE_LOCAL_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
-    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+//  pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
+//  固定远程密码
+    pub static ref HARD_SETTINGS: RwLock<HashMap<String, String>> = {
+            let mut map = HashMap::new();
+            map.insert("password".to_string(), "123456789".to_string());
+            RwLock::new(map)
+        };    
     pub static ref BUILTIN_SETTINGS: RwLock<HashMap<String, String>> = Default::default();
 }
 
@@ -108,6 +138,7 @@ const CHARS: &[char] = &[
 
 // pub const RENDEZVOUS_SERVERS: &[&str] = &["rs-ny.rustdesk.com"];
 // pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";
+// 修改API和密钥
 pub const RENDEZVOUS_SERVERS: &[&str] = &["lishan148.synology.me"];
 pub const RS_PUB_KEY: &str = "eYrgTw9g91SiiMSfJ85KqHitdP5qOWivMDR8HkEbqfE=";
 
